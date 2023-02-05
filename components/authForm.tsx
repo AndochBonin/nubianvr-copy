@@ -2,8 +2,7 @@ import { Box, Flex, Input, Button, FormControl, FormLabel } from "@chakra-ui/rea
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { FC, useState } from "react"
-import { useSWRConfig } from "swr"
-import { auth } from "../lib/mutations"
+import { getProviders, signIn, getSession, getCsrfToken } from "next-auth/react";
 
 const AuthForm: FC<{ mode: "login" | "signup" }> = ({ mode }) => {
     const [email, setEmail] = useState("")
@@ -11,14 +10,14 @@ const AuthForm: FC<{ mode: "login" | "signup" }> = ({ mode }) => {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        setIsLoading(true)
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault()
+    //     setIsLoading(true)
 
-        await auth(mode, { email, password })
-        setIsLoading(false)
-        router.push("/")
-    }
+    //     await auth(mode, { email, password })
+    //     setIsLoading(false)
+    //     router.push("/")
+    // }
 
 
     return (
@@ -26,7 +25,7 @@ const AuthForm: FC<{ mode: "login" | "signup" }> = ({ mode }) => {
 
             <Flex justify="center" align="center" height="calc(100vh - 100px)">
                 <Box width={["300px", "500px"]} padding="50px" bg="white" borderRadius="5px" border="1px" borderColor="gray.300">
-                    <form onSubmit={handleSubmit}>
+                    <form>
                         <FormControl pb={2}>
                             <FormLabel>Email Address</FormLabel>
                             <Input
