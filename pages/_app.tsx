@@ -1,9 +1,10 @@
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
-import PageLayout from "../components/pageLayout";
-import Login from "./login";
-import Signup from "./signup";
-import "reset-css";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react"
+import PageLayout from "../components/pageLayout"
+import Login from "./login"
+import Signup from "./signup"
+import "reset-css"
 import type { AppProps } from "next/app"
+import { SessionProvider } from "next-auth/react"
 
 const theme = extendTheme({
   colors: {
@@ -33,17 +34,19 @@ const theme = extendTheme({
   }
 })
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <ChakraProvider theme={theme}>
-      { Component == Login || Component == Signup ? (
-        <Component {...pageProps} />
-      ) : (
-        <PageLayout>
+    <SessionProvider session={session}>
+      <ChakraProvider theme={theme}>
+        {Component == Login || Component == Signup ? (
           <Component {...pageProps} />
-        </PageLayout>
-      )}
+        ) : (
+          <PageLayout>
+            <Component {...pageProps} />
+          </PageLayout>
+        )}
 
-    </ChakraProvider>
+      </ChakraProvider>
+    </SessionProvider>
   )
 }

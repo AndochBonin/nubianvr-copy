@@ -1,10 +1,9 @@
 import React from "react"
 import { Button } from "@chakra-ui/react"
 import Link from "next/link"
-import SignupButton from "./signupButton"
+import { signIn } from "next-auth/react"
 
 export default function LoginButton() {
-
 
     return (
         <Link href="/login">
@@ -18,6 +17,6 @@ export default function LoginButton() {
             >
                 Login
             </Button>
-        </Link>
+       </Link>
     )
 }

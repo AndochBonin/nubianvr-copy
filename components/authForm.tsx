@@ -1,8 +1,9 @@
-import { Box, Flex, Input, Button, FormControl, FormLabel } from "@chakra-ui/react"
+import { Box, Flex, Input, Button, FormControl, FormLabel, Divider, Center, Text } from "@chakra-ui/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { FC, useState } from "react"
-import { getProviders, signIn, getSession, getCsrfToken } from "next-auth/react";
+import { FcGoogle } from 'react-icons/fc'
+import { signIn, getSession } from "next-auth/react";
 
 const AuthForm: FC<{ mode: "login" | "signup" }> = ({ mode }) => {
     const [email, setEmail] = useState("")
@@ -78,6 +79,25 @@ const AuthForm: FC<{ mode: "login" | "signup" }> = ({ mode }) => {
                                 </Button> : <></>}
                         </Flex>
                     </form>
+
+                    <Divider marginTop={4} />
+
+                    <Center p={6}>
+                        <Button
+                            w={"full"}
+                            maxW={"xl"}
+                            variant={"outline"}
+                            leftIcon={<FcGoogle />}
+                            onClick={()=>{
+                                signIn("google", { callbackUrl: "/" })
+
+                            }}
+                        >
+                            <Center>
+                                <Text>Continue with Google</Text>
+                            </Center>
+                        </Button>
+                    </Center>
 
                     <Flex pt={6}>
                         <p>{mode === "login" ? "Don't have an account? " : "Already have an account? "}</p>

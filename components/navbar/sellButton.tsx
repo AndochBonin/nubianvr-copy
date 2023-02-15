@@ -1,22 +1,19 @@
-import React from "react"
 import { Button } from '@chakra-ui/react'
 import Link from "next/link"
 
-export default function SignupButton() {
-
+export default function SellButton() {
     return (
-        <Link href="/signup">
+        <Link href="/sell">
             <Button
                 size="sm"
-                bgColor="black"
-                color="white"
-                borderColor="black"
+                colorScheme="BlackAlpha"
                 variant="outline"
                 borderRadius="0"
-                _hover={{ bg: "black" }}
+                _hover={{ bg: "black", color: "white" }}
                 _focus={{ borderColor: "black" }}
+                px={5}
             >
-                Sign Up
+                Sell
             </Button>
         </Link>
     )
