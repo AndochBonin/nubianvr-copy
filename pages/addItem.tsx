@@ -12,14 +12,80 @@ import {
     Select,
     Text,
 } from "@chakra-ui/react"
+import { useState } from "react"
+import { useSession } from "next-auth/react"
+import addItem from "./api/addItem"
+
+//import { PrismaClient } from '@prisma/client'
+
+//const prisma = new PrismaClient()
+
 
 
 export default function AddItem() {
+
+    const [name, setName] = useState("")
+    const [color, setColor] = useState("")
+    const [condition, setCondition] = useState("")
+    const [category, setCategory] = useState("")
+    const [sex, setSex] = useState("")
+    const [price, setPrice] = useState(0)
+    const [size, setSize] = useState("")
+    const [image, setImage] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
+    const { data: session, status } = useSession()
+
+    const handleSubmit = async (e) => {
+        console.log("got to handle submit")
+        e.preventDefault()
+        setIsLoading(true)
+
+        const item = {
+            name: name,
+            color: color,
+            condition: condition,
+            category: category,
+            sex: sex,
+            price: price,
+            size: size,
+            url: "/",
+            user: {
+                connect: {
+                    email: session.user.email
+                }
+            }
+        }
+
+
+        try {
+            await saveItem(item)
+        } catch (err) {
+            console.log(err)
+        }
+
+        setIsLoading(false)
+    }
+
+    async function saveItem(item) {
+        console.log("got to save item")
+        const response = await fetch("/api/addItem", {
+            method: "POST",
+            body: JSON.stringify(item)
+        })
+
+        if (!response.ok) {
+            throw new Error(response.statusText)
+        }
+
+        return await response.json()
+    }
+
     return (
+
         <Box bg="white" color="black" paddingX={[2, 5, 10, 20]}>
             <Box>
                 <Heading marginY={8}>Add an Item</Heading>
-                <form>
+                <form onSubmit={handleSubmit}>
 
                     <Box>
                         <Box pb={6}>
@@ -33,6 +99,7 @@ export default function AddItem() {
                                     accept="image/*"
                                     pt={1}
                                     pl={1}
+                                    onChange={(e) => { setImage(e.target.value) }}
                                 />
                             </FormControl>
                         </Box>
@@ -47,6 +114,7 @@ export default function AddItem() {
                                         borderRadius="2"
                                         focusBorderColor="black"
                                         _hover={{ borderColor: "black" }}
+                                        onChange={(e) => { setCategory(e.target.value) }}
                                     >
                                         <option value='Tops'>Tops</option>
                                         <option value='Bottoms'>Bottoms</option>
@@ -67,6 +135,7 @@ export default function AddItem() {
                                         borderRadius="2"
                                         focusBorderColor="black"
                                         _hover={{ borderColor: "black" }}
+                                        onChange={(e) => { setSex(e.target.value) }}
                                     >
                                         <option value='Menswear'>Menswear</option>
                                         <option value='Womenswear'>Womenswear</option>
@@ -82,10 +151,12 @@ export default function AddItem() {
                                 <FormControl>
                                     <FormLabel>Item Name</FormLabel>
                                     <Input
+                                        type="text"
                                         placeholder="Item Name"
                                         borderRadius="2"
                                         focusBorderColor="black"
                                         _hover={{ borderColor: "black" }}
+                                        onChange={(e) => { setName(e.target.value) }}
                                     />
                                 </FormControl>
                             </Box>
@@ -97,6 +168,7 @@ export default function AddItem() {
                                         borderRadius="2"
                                         focusBorderColor="black"
                                         _hover={{ borderColor: "black" }}
+                                        onChange={(e) => { setColor(e.target.value) }}
                                     />
                                 </FormControl>
                             </Box>
@@ -113,6 +185,7 @@ export default function AddItem() {
                                         borderRadius="2"
                                         focusBorderColor="black"
                                         _hover={{ borderColor: "black" }}
+                                        onChange={(e) => { setCondition(e.target.value) }}
                                     >
                                         <option value='New'>New</option>
                                         <option value='Barely Used'>Barely Used</option>
@@ -124,10 +197,12 @@ export default function AddItem() {
                                 <FormControl>
                                     <FormLabel>Price (GHC)</FormLabel>
                                     <Input
+                                        type="number"
                                         placeholder="Price"
                                         borderRadius="2"
                                         focusBorderColor="black"
                                         _hover={{ borderColor: "black" }}
+                                        onChange={(e) => { setPrice(e.target.valueAsNumber) }}
                                     />
                                 </FormControl>
                             </Box>
@@ -138,31 +213,34 @@ export default function AddItem() {
                                 <FormControl>
                                     <FormLabel>Size</FormLabel>
                                     <Input
+                                        type="text"
                                         placeholder="Size"
                                         borderRadius="2"
                                         focusBorderColor="black"
                                         _hover={{ borderColor: "black" }}
+                                        onChange={(e) => { setSize(e.target.value) }}
                                     />
                                 </FormControl>
                             </Box>
 
                             <Box width="100%">
                                 <FormControl>
-                                <FormLabel>Submit</FormLabel>
-                                <Button
-                                    size="md"
-                                    borderColor="black"
-                                    bg="black"
-                                    color="white"
-                                    variant="outline"
-                                    borderRadius="0"
-                                    _hover={{ bg: "white", color: "black" }}
-                                    _focus={{ borderColor: "black" }}
-                                    width="100%"
-                                    type="submit"
-                                >
-                                    Add Item
-                                </Button>
+                                    <FormLabel>Submit</FormLabel>
+                                    <Button
+                                        size="md"
+                                        borderColor="black"
+                                        bg="black"
+                                        color="white"
+                                        variant="outline"
+                                        borderRadius="0"
+                                        _hover={{ bg: "white", color: "black" }}
+                                        _focus={{ borderColor: "black" }}
+                                        width="100%"
+                                        type="submit"
+                                        isLoading={isLoading}
+                                    >
+                                        Add Item
+                                    </Button>
                                 </FormControl>
                             </Box>
 

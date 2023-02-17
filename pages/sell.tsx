@@ -14,7 +14,8 @@ export default function Sell() {
                             <VendorRevenueStat />
                         </Box>
                     </Flex>
-                    <Box >
+                    <Box mt={10}>
+                        <Heading color="black">Orders</Heading>
                         <OrderTable />
                     </Box>
 

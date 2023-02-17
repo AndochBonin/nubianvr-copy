@@ -20,7 +20,7 @@ export default function OrderTable() {
 
     return (
 
-        <TableContainer border="1px" borderRadius={8} borderColor="gray.300" mt={10}>
+        <TableContainer border="1px" borderRadius={8} borderColor="gray.300" mt={5}>
             <Table variant="simple" size={["sm"]} width="100%">
                 <TableCaption>Click item status to change</TableCaption>
                 <Thead bg="gray.100">
