@@ -42,7 +42,7 @@ export default function Categories() {
                 {/* map categories into boxes: tops, bottoms, dresses, footwear, accessories, other */}
                 <Flex wrap="nowrap" justify="center">
                     {categories1.map(category => (
-                        <Box marginBottom={4} marginX={3.5} key={category.name}>
+                        <Box marginBottom={4} marginX={3.5} key={category.name} cursor="pointer">
                             <Image
                                 src={category.image}
                                 width="200px"
@@ -57,7 +57,7 @@ export default function Categories() {
                 </Flex>
                 <Flex wrap="nowrap" justify="center">
                     {categories2.map(category => (
-                        <Box marginBottom={4} marginX={3.5} key={category.name}>
+                        <Box marginBottom={4} marginX={3.5} key={category.name} cursor="pointer">
                             <Image
                                 src={category.image}
                                 width="200px"

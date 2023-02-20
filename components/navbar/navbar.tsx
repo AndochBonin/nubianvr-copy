@@ -32,13 +32,13 @@ export default function Navbar() {
                         </Box>
                         <Menu>
                             <MenuButton>
-                                <Avatar name={session.user.name} src={session.user.image} size="sm" cursor="pointer" border="1px"/>
+                                <Avatar name={session.user.name} size="sm" cursor="pointer" />
                             </MenuButton>
                             <MenuList>
                                 <MenuItem>Orders</MenuItem>
                                 <MenuItem>Account Details</MenuItem>
                                 <MenuItem>Settings</MenuItem>
-                                <MenuDivider />
+                                <MenuDivider mx={3} borderColor="gray.400"/>
                                 <MenuItem>Sign Out</MenuItem>
                             </MenuList>
                         </Menu>

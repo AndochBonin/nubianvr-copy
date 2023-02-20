@@ -1,4 +1,8 @@
 import { Box, Heading } from "@chakra-ui/react"
+import client from "../../lib/prismadb"
+import { authOptions } from "../../pages/api/auth/[...nextauth]"
+import { getServerSession } from "next-auth/next"
+import { Item } from "@prisma/client"
 
 export default function NewIn() {
     return (

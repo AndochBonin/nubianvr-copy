@@ -11,7 +11,7 @@ export default function Hero() {
 
             <Flex justify="center" wrap="wrap">
                 <Link href="/">
-                    <Box  border="1px" borderColor="gray.300" marginX={[2, 5]} marginBottom={5} width="670px"> {/* shop menswear */}
+                    <Box  border="1px" borderColor="gray.300" marginX={[2, 5]} marginBottom={5} width="670px" cursor="pointer"> {/* shop menswear */}
                         <Image
                             src="/../public/Shop Menswear.png"
                             width={670}
@@ -37,7 +37,7 @@ export default function Hero() {
                 </Link>
 
                 <Link href="/">
-                    <Box border="1px" borderColor="gray.300" marginX={[2, 5]} marginBottom={5} width="670px"> {/* shop womenswear */}
+                    <Box border="1px" borderColor="gray.300" marginX={[2, 5]} marginBottom={5} width="670px" cursor="pointer"> {/* shop womenswear */}
                         <Image
                             src="/../public/Shop Womenswear.png"
                             width={670}
