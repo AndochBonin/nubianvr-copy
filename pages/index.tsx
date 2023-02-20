@@ -8,6 +8,7 @@ import client from "../lib/prismadb"
 import { authOptions } from "./api/auth/[...nextauth]"
 import { Box, Card, CardBody, Flex, Text, Heading } from '@chakra-ui/react'
 import { Item } from '@prisma/client'
+import Link from 'next/link'
 
 export default function Home({ items }) {
   return (
@@ -20,6 +21,14 @@ export default function Home({ items }) {
         <Flex pt={5} wrap="wrap" justify={["center", "center", "flex-start"]}>
           {
             items.map((item: Item) => (
+              <Link
+              href={{
+                pathname: "/items/[itemID]",
+                query: {
+                  itemID: item.id
+                }
+              }}
+              >
               <Box m={2} cursor="pointer">
                 <Card>
                   <CardBody>
@@ -33,12 +42,12 @@ export default function Home({ items }) {
                     <Heading size="sm">{item.name}</Heading>
                     <Text>{item.color}</Text>
                     <Flex justify="space-between">
-                      
                       <Text as="b">GHC {item.price}</Text>
                     </Flex>
                   </CardBody>
                 </Card>
               </Box>
+              </Link>
             ))
           }
         </Flex>
