@@ -1,11 +1,12 @@
 import { Box, Flex, Heading, Text, Divider } from "@chakra-ui/react"
 import Image from 'next/image'
+import BuyNowButton from "../../components/buyNowButton"
 import client from "../../lib/prismadb"
 
 export default function ItemPage({ item }) {
     return (
         <Box mt={[5, 10]} mx={[2, 5, 10, 20]}>
-            <Flex justify="center">
+            <Flex justify="center" wrap="wrap">
                 <Box mr={[2, 5, 10, 20]}>
                     <Heading size="xl" mb={10}>{item.name}</Heading>
                     <Image
@@ -22,7 +23,9 @@ export default function ItemPage({ item }) {
                     <Text mb={2}>Color - {item.color}</Text>
                     <Text mb={2}>Size - {item.size}</Text>
                     <Text mb={5}>Condition - {item.condition}</Text>
-                    <Heading size="lg">GHC {item.price}</Heading>
+                    <Heading size="lg" mb={5}>GHC {item.price}</Heading>
+
+                    <BuyNowButton />
                 </Box>
             </Flex>
         </Box>
