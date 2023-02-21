@@ -2,10 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Categories from '../components/hero section/categories'
 import Hero from '../components/hero section/hero'
-import NewIn from '../components/hero section/newIn'
-import styles from '../styles/Home.module.css'
 import client from "../lib/prismadb"
-import { authOptions } from "./api/auth/[...nextauth]"
 import { Box, Card, CardBody, Flex, Text, Heading } from '@chakra-ui/react'
 import { Item } from '@prisma/client'
 import Link from 'next/link'
