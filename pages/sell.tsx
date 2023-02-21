@@ -10,17 +10,18 @@ import {
     CardBody,
     Flex,
     Heading,
-    Stack,
     Text,
     Badge,
-    Show,
     Hide
 } from "@chakra-ui/react"
 import Image from "next/image"
 import { Item } from "@prisma/client"
 import SellInfoAccordion from "../components/sellInfoAccordion"
 
-const Sell = ({ userItems }) => {
+const Sell = ({ user }) => {
+
+    const userItems = user.items
+
     return (
         <Box width="100vw">
             <Flex wrap="wrap-reverse" justify="space-between">
@@ -62,7 +63,8 @@ const Sell = ({ userItems }) => {
                                     </Heading>
                                     <Box>
                                         <Text>
-                                            Confirmed Orders will be scheduled for delivery and you will be contacted by a delivery company for pickup of items.
+                                            Orders will be scheduled for delivery when <Badge colorScheme='green'>Confirmed</Badge> and 
+                                            you will be contacted by a delivery agent for pickup of items.
                                         </Text>
                                     </Box>
                                 </Box>
@@ -118,19 +120,15 @@ export const getServerSideProps = async (context) => { // finding all user items
     const user = await client.user.findUnique({ // finding the user
         where: {
             email: session.user.email
-        }
-    })
-    const userID = user.id  // getting user id
-
-    const userItems = await client.item.findMany({ // finding all items where userID matches current users id
-        where: {
-            userId: userID
+        },
+        include: {
+            items: true
         }
     })
 
     return {
         props: {
-            userItems
+            user
         }
     }
 }
