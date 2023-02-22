@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from "next"
+import client from '../../lib/prismadb'
 
-const prisma = new PrismaClient()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "POST") {
@@ -11,7 +10,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     console.log("got to api")
     const itemData = JSON.parse(req.body)
 
-    const deletedItem = await prisma.item.delete({
+    const deletedItem = await client.item.delete({
         where: {
             id: itemData.id
         }

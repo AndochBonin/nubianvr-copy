@@ -1,7 +1,6 @@
-import { PrismaClient } from '@prisma/client'
 import { NextApiRequest, NextApiResponse } from "next"
+import client from '../../lib/prismadb'
 
-const prisma = new PrismaClient()
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "POST") {
@@ -12,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const itemData = JSON.parse(req.body)
     console.log(itemData.id)
 
-    const savedItem = await prisma.item.update({
+    const savedItem = await client.item.update({
         where: {
             id: itemData.id,
         },
