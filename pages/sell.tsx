@@ -3,7 +3,9 @@ import OrderTable from "../components/itemStatus/orderTable"
 import VendorRevenueStat from "../components/itemStatus/vendorRevenueStat"
 import client from "../lib/prismadb"
 import { getServerSession } from "next-auth/next"
+import { useSession } from "next-auth/react"
 import { authOptions } from "./api/auth/[...nextauth]"
+import { AiFillDelete, AiFillEdit } from "react-icons/ai"
 import {
     Box,
     Card,
@@ -12,9 +14,11 @@ import {
     Heading,
     Text,
     Badge,
-    Hide
+    Hide,
+    Button
 } from "@chakra-ui/react"
 import Image from "next/image"
+import Link from "next/link"
 import { Item } from "@prisma/client"
 import SellInfoAccordion from "../components/sellInfoAccordion"
 
@@ -63,7 +67,7 @@ const Sell = ({ user }) => {
                                     </Heading>
                                     <Box>
                                         <Text>
-                                            Orders will be scheduled for delivery when <Badge colorScheme='green'>Confirmed</Badge> and 
+                                            Orders will be scheduled for delivery when <Badge colorScheme='green'>Confirmed</Badge> and
                                             you will be contacted by a delivery agent for pickup of items.
                                         </Text>
                                     </Box>
@@ -84,7 +88,7 @@ const Sell = ({ user }) => {
                 <Flex pt={5} wrap="wrap" justify={["center", "center", "flex-start"]}>
                     {
                         userItems.map((item: Item) => (
-                            <Box m={2}>
+                            <Box m={2} key={item.id}>
                                 <Card>
                                     <CardBody>
                                         <Image
@@ -98,6 +102,18 @@ const Sell = ({ user }) => {
                                         <Text>{item.color}</Text>
                                         <Flex justify="space-between">
                                             <Text as="b">GHC {item.price}</Text>
+                                            <Link
+                                                href={{
+                                                    pathname: "/editItem/[itemID]",
+                                                    query: {
+                                                        itemID: item.id
+                                                    }
+                                                }}
+                                            >
+                                                <Button>
+                                                    <AiFillEdit />
+                                                </Button>
+                                            </Link>
                                         </Flex>
                                     </CardBody>
                                 </Card>
@@ -116,6 +132,7 @@ export const getServerSideProps = async (context) => { // finding all user items
 
     const session = await getServerSession(context.req, context.res, authOptions)
 
+    if (!session) return
 
     const user = await client.user.findUnique({ // finding the user
         where: {
