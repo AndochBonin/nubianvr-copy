@@ -6,6 +6,8 @@ import {
     FormLabel,
     Heading,
     Input,
+    NumberInput,
+    NumberInputField,
     Select,
 } from "@chakra-ui/react"
 
@@ -103,7 +105,7 @@ export default function AddItem() {
 
                             <Flex justify="space-between">
                                 <Box width="100%" mr={4} pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Category</FormLabel>
                                         <Select
                                             placeholder="Select Category"
@@ -124,7 +126,7 @@ export default function AddItem() {
                                 </Box>
 
                                 <Box width="100%" pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Men / Women</FormLabel>
                                         <Select
                                             placeholder="Select Category"
@@ -145,7 +147,7 @@ export default function AddItem() {
                         <Box>
                             <Flex justify="space-between" width="100%">
                                 <Box width="100%" mr={4} pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Item Name</FormLabel>
                                         <Input
                                             type="text"
@@ -158,15 +160,29 @@ export default function AddItem() {
                                     </FormControl>
                                 </Box>
                                 <Box width="100%" pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Color</FormLabel>
-                                        <Input
-                                            placeholder="Color"
+                                        <Select
+                                            placeholder="Select Color"
+                                            size="md"
                                             borderRadius="2"
                                             focusBorderColor="black"
                                             _hover={{ borderColor: "black" }}
                                             onChange={(e) => { setColor(e.target.value) }}
-                                        />
+                                        >
+                                            <option value='White'>White</option>
+                                            <option value='Black'>Black</option>
+                                            <option value='Red'>Red</option>
+                                            <option value='Pink'>Pink</option>
+                                            <option value='Orange'>Orange</option>
+                                            <option value='Yellow'>Yellow</option>
+                                            <option value='Lime'>Lime</option>
+                                            <option value='Green'>Green</option>
+                                            <option value='Light Blue'>Light Blue</option>
+                                            <option value='Blue'>Blue</option>
+                                            <option value='Violet'>Violet</option>
+                                            <option value='Purple'>Purple</option>
+                                        </Select>
                                     </FormControl>
                                 </Box>
                             </Flex>
@@ -174,7 +190,7 @@ export default function AddItem() {
 
                             <Flex justify="space-between" width="100%">
                                 <Box width="100%" mr={4} pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Condition</FormLabel>
                                         <Select
                                             placeholder="Select Condition"
@@ -191,23 +207,24 @@ export default function AddItem() {
                                     </FormControl>
                                 </Box>
                                 <Box width="100%" pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Price (GHC)</FormLabel>
-                                        <Input
-                                            type="number"
-                                            placeholder="Price"
-                                            borderRadius="2"
-                                            focusBorderColor="black"
-                                            _hover={{ borderColor: "black" }}
-                                            onChange={(e) => { setPrice(e.target.valueAsNumber) }}
-                                        />
+                                        <NumberInput min={0} precision={2}>
+                                            <NumberInputField
+                                                placeholder="Price"
+                                                borderRadius="2"
+                                                borderColor="black"
+                                                _hover={{ borderColor: "black" }}
+                                                onChange={(e) => { setPrice(e.target.valueAsNumber) }}
+                                            />
+                                        </NumberInput>
                                     </FormControl>
                                 </Box>
                             </Flex>
 
                             <Flex justify="space-between" width="100%">
                                 <Box width="100%" pb={6} mr={4}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Size</FormLabel>
                                         <Input
                                             type="text"

@@ -4,7 +4,7 @@ import SearchBar from "./searchBar"
 import SignupButton from "./signupButton"
 import LoginButton from "./loginButton"
 import { Box, ButtonGroup, Flex, Avatar, Menu, MenuButton, Button, MenuItem, MenuList, MenuDivider } from "@chakra-ui/react"
-import { useSession } from "next-auth/react"
+import { useSession, signOut } from "next-auth/react"
 import Link from "next/link"
 import SellButton from "./sellButton"
 
@@ -38,8 +38,12 @@ export default function Navbar() {
                                 <MenuItem>Orders</MenuItem>
                                 <MenuItem>Account Details</MenuItem>
                                 <MenuItem>Settings</MenuItem>
-                                <MenuDivider mx={3} borderColor="gray.400"/>
-                                <MenuItem>Sign Out</MenuItem>
+                                <MenuDivider mx={3} borderColor="gray.400" />
+                                <MenuItem as="button"
+                                onClick={() => {signOut()}}
+                                >
+                                    Sign Out
+                                </MenuItem>
                             </MenuList>
                         </Menu>
                     </Flex>
