@@ -1,25 +1,21 @@
 import {
     Box,
     Button,
-    Center,
-    Divider,
     Flex,
     FormControl,
     FormLabel,
     Heading,
     Input,
-    Link,
     Select,
-    Text,
 } from "@chakra-ui/react"
+
 import { useState } from "react"
 import { useSession } from "next-auth/react"
-import addItem from "./api/addItem"
 
-//import { PrismaClient } from '@prisma/client'
 
-//const prisma = new PrismaClient()
-
+function refreshPage() {
+    window.location.reload()
+}
 
 
 export default function AddItem() {
@@ -64,6 +60,7 @@ export default function AddItem() {
         }
 
         setIsLoading(false)
+        refreshPage()
     }
 
     async function saveItem(item) {

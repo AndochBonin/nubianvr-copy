@@ -1,29 +1,34 @@
 import {
     Box,
     Button,
-    Center,
-    Divider,
     Flex,
     FormControl,
     FormLabel,
     Heading,
     Input,
-
     Select,
-    Text,
 } from "@chakra-ui/react"
+
+
 import Link from "next/link"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSession } from "next-auth/react"
 import client from "../../lib/prismadb"
+import { AiFillDelete } from "react-icons/ai"
+import { useRouter } from "next/router"
 
 //import { PrismaClient } from '@prisma/client'
 
 //const prisma = new PrismaClient()
 
+function refreshPage() {
+    window.location.reload()
+}
 
 
-export default function AddItem({ item }) {
+
+
+export default function EditItem({ item }) {
 
     const itemID = item.id
     const [name, setName] = useState(item.name)
@@ -36,6 +41,7 @@ export default function AddItem({ item }) {
     const [image, setImage] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const { data: session, status } = useSession()
+
 
     const handleSubmit = async (e) => {
         console.log("got to handle submit")
@@ -67,7 +73,9 @@ export default function AddItem({ item }) {
         }
 
         setIsLoading(false)
+        refreshPage()
     }
+
 
     async function saveItem(item) {
         console.log("got to save item")
@@ -83,11 +91,68 @@ export default function AddItem({ item }) {
         return await response.json()
     }
 
+
+    async function deleteItem(item) {
+        console.log("got to delete item")
+        const response = await fetch("../api/deleteItem", {
+            method: "POST",
+            body: JSON.stringify(item)
+        })
+        if (!response.ok) {
+            throw new Error(response.statusText)
+        }
+        return await response.json()
+    }
+
+    async function handleDelete() {
+        console.log("got to handle delete")
+        setIsLoading(true)
+
+        const item = {
+            id: itemID,
+            name: name,
+            color: color,
+            condition: condition,
+            category: category,
+            sex: sex,
+            price: price,
+            size: size,
+            url: "/",
+            user: {
+                connect: {
+                    email: session.user.email
+                }
+            }
+        }
+
+
+        try {
+            await deleteItem(item)
+        } catch (err) {
+            console.log(err)
+        }
+        setIsLoading(false)
+        window.location.replace("/sell")
+    }
+
+
+
     return (
         <Flex width="100vw" justify="center">
             <Box bg="white" color="black" paddingX={[2, 5, 10, 20]}>
                 <Box>
-                    <Heading marginY={8}>Edit Item: {item.name}</Heading>
+                    <Flex marginY={8}>
+                        <Heading>Edit Item: {item.name}</Heading>
+                        <Button
+                            marginX={4}
+                            mt={2}
+                            colorScheme="red"
+                            onClick={handleDelete}
+                            isLoading={isLoading}
+                        >
+                            <AiFillDelete color="white" />
+                        </Button>
+                    </Flex>
                     <form onSubmit={handleSubmit}>
 
                         <Box>
