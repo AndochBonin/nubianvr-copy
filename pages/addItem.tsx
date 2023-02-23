@@ -3,6 +3,8 @@ import {
     Button,
     Flex,
     FormControl,
+    FormErrorMessage,
+    FormHelperText,
     FormLabel,
     Heading,
     Input,
@@ -14,10 +16,10 @@ import {
 import { useState } from "react"
 import { useSession } from "next-auth/react"
 
-
 function refreshPage() {
     window.location.reload()
 }
+
 
 
 export default function AddItem() {
@@ -32,6 +34,12 @@ export default function AddItem() {
     const [image, setImage] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const { data: session, status } = useSession()
+
+    const isFormError = () => {
+        if (name != "" && !name.match(/^[a-z0-9]+$/i)) return true
+        return false
+    }
+
 
     const handleSubmit = async (e) => {
         console.log("got to handle submit")
@@ -147,7 +155,7 @@ export default function AddItem() {
                         <Box>
                             <Flex justify="space-between" width="100%">
                                 <Box width="100%" mr={4} pb={6}>
-                                    <FormControl isRequired>
+                                    <FormControl isRequired isInvalid={isFormError()}>
                                         <FormLabel>Item Name</FormLabel>
                                         <Input
                                             type="text"
@@ -157,6 +165,11 @@ export default function AddItem() {
                                             _hover={{ borderColor: "black" }}
                                             onChange={(e) => { setName(e.target.value) }}
                                         />
+                                        {!isFormError ? (
+                                            <></>
+                                        ) : (
+                                            <FormErrorMessage>Name should only contain alphanumeric characters.</FormErrorMessage>
+                                        )}
                                     </FormControl>
                                 </Box>
                                 <Box width="100%" pb={6}>
@@ -226,14 +239,36 @@ export default function AddItem() {
                                 <Box width="100%" pb={6} mr={4}>
                                     <FormControl isRequired>
                                         <FormLabel>Size</FormLabel>
-                                        <Input
-                                            type="text"
-                                            placeholder="Size"
-                                            borderRadius="2"
-                                            focusBorderColor="black"
-                                            _hover={{ borderColor: "black" }}
-                                            onChange={(e) => { setSize(e.target.value) }}
-                                        />
+                                        {
+                                            category == "Footwear" ?
+                                                <NumberInput max={50} min={36} precision={2}>
+                                                    <NumberInputField
+                                                        placeholder="Shoe Size"
+                                                        borderRadius="2"
+                                                        borderColor="black"
+                                                        _hover={{ borderColor: "black" }}
+                                                        onChange={(e) => { setSize(e.target.value) }}
+                                                    />
+                                                </NumberInput>
+
+                                                :
+
+                                                <Select
+                                                    placeholder="Select Size"
+                                                    size="md"
+                                                    borderRadius="2"
+                                                    focusBorderColor="black"
+                                                    _hover={{ borderColor: "black" }}
+                                                    onChange={(e) => { setSize(e.target.value) }}
+                                                >
+                                                    <option value='XS'>XS</option>
+                                                    <option value='S'>S</option>
+                                                    <option value='M'>M</option>
+                                                    <option value='L'>L</option>
+                                                    <option value='XL'>XL</option>
+                                                    <option value='XXL'>XXL</option>
+                                                </Select>
+                                        }
                                     </FormControl>
                                 </Box>
 
