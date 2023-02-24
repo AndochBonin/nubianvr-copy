@@ -36,7 +36,7 @@ export default function AddItem() {
     const { data: session, status } = useSession()
 
     const isFormError = () => {
-        if (name != "" && !name.match(/^[a-z0-9]+$/i)) return true
+        if (name != "" && !name.match(/^[a-z\d\-\s]+$/i)) return true
         return false
     }
 

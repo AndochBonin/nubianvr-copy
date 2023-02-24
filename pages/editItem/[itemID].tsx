@@ -3,9 +3,12 @@ import {
     Button,
     Flex,
     FormControl,
+    FormErrorMessage,
     FormLabel,
     Heading,
     Input,
+    NumberInput,
+    NumberInputField,
     Select,
 } from "@chakra-ui/react"
 
@@ -42,6 +45,11 @@ export default function EditItem({ item }) {
     const [isLoading, setIsLoading] = useState(false)
     const { data: session, status } = useSession()
 
+
+    const isFormError = () => {
+        if (name != "" && !name.match(/^[a-z\d\-\s]+$/i)) return true
+        return false
+    }
 
     const handleSubmit = async (e) => {
         console.log("got to handle submit")
@@ -174,7 +182,7 @@ export default function EditItem({ item }) {
 
                             <Flex justify="space-between">
                                 <Box width="100%" mr={4} pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Category</FormLabel>
                                         <Select
                                             placeholder={item.category}
@@ -195,7 +203,7 @@ export default function EditItem({ item }) {
                                 </Box>
 
                                 <Box width="100%" pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Men / Women</FormLabel>
                                         <Select
                                             placeholder={item.sex}
@@ -216,7 +224,7 @@ export default function EditItem({ item }) {
                         <Box>
                             <Flex justify="space-between" width="100%">
                                 <Box width="100%" mr={4} pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired isInvalid={isFormError()}>
                                         <FormLabel>Item Name</FormLabel>
                                         <Input
                                             type="text"
@@ -226,10 +234,15 @@ export default function EditItem({ item }) {
                                             _hover={{ borderColor: "black" }}
                                             onChange={(e) => { setName(e.target.value) }}
                                         />
+                                        {!isFormError ? (
+                                            <></>
+                                        ) : (
+                                            <FormErrorMessage>Name should only contain alphanumeric characters.</FormErrorMessage>
+                                        )}
                                     </FormControl>
                                 </Box>
                                 <Box width="100%" pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Color</FormLabel>
                                         <Input
                                             placeholder={item.color}
@@ -245,7 +258,7 @@ export default function EditItem({ item }) {
 
                             <Flex justify="space-between" width="100%">
                                 <Box width="100%" mr={4} pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Condition</FormLabel>
                                         <Select
                                             placeholder={item.condition}
@@ -262,7 +275,7 @@ export default function EditItem({ item }) {
                                     </FormControl>
                                 </Box>
                                 <Box width="100%" pb={6}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Price (GHC)</FormLabel>
                                         <Input
                                             type="number"
@@ -278,16 +291,38 @@ export default function EditItem({ item }) {
 
                             <Flex justify="space-between" width="100%">
                                 <Box width="100%" pb={6} mr={4}>
-                                    <FormControl>
+                                    <FormControl isRequired>
                                         <FormLabel>Size</FormLabel>
-                                        <Input
-                                            type="text"
-                                            placeholder={item.size}
-                                            borderRadius="2"
-                                            focusBorderColor="black"
-                                            _hover={{ borderColor: "black" }}
-                                            onChange={(e) => { setSize(e.target.value) }}
-                                        />
+                                        {
+                                            category == "Footwear" ?
+                                                <NumberInput max={50} min={36} precision={2}>
+                                                    <NumberInputField
+                                                        placeholder="Shoe Size"
+                                                        borderRadius="2"
+                                                        borderColor="black"
+                                                        _hover={{ borderColor: "black" }}
+                                                        onChange={(e) => { setSize(e.target.value) }}
+                                                    />
+                                                </NumberInput>
+
+                                                :
+
+                                                <Select
+                                                    placeholder="Select Size"
+                                                    size="md"
+                                                    borderRadius="2"
+                                                    focusBorderColor="black"
+                                                    _hover={{ borderColor: "black" }}
+                                                    onChange={(e) => { setSize(e.target.value) }}
+                                                >
+                                                    <option value='XS'>XS</option>
+                                                    <option value='S'>S</option>
+                                                    <option value='M'>M</option>
+                                                    <option value='L'>L</option>
+                                                    <option value='XL'>XL</option>
+                                                    <option value='XXL'>XXL</option>
+                                                </Select>
+                                        }
                                     </FormControl>
                                 </Box>
 

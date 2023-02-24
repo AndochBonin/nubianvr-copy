@@ -39,18 +39,7 @@ const AuthForm: FC<{ mode: "login" | "signup" }> = ({ mode }) => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </FormControl>
-                        <FormControl pb={4}>
-                            <FormLabel>Password</FormLabel>
-                            <Input
-                                placeholder="Password"
-                                type="password"
-                                borderRadius="2"
-                                borderColor="gray.400"
-                                focusBorderColor="gray.400"
-                                _hover={{ borderColor: "gray.400" }}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </FormControl>
+
 
                         <Flex justify="space-between">
                             <Button
@@ -67,16 +56,6 @@ const AuthForm: FC<{ mode: "login" | "signup" }> = ({ mode }) => {
                             >
                                 {mode === "login" ? "Login" : "Sign Up"}
                             </Button>
-                            {mode === "login" ?
-                                <Button
-                                    size="sm"
-                                    variant="link"
-                                    paddingLeft="8px"
-                                    color="black"
-                                    _focus={{ borderColor: "white" }}
-                                >
-                                    Forgot Password?
-                                </Button> : <></>}
                         </Flex>
                     </form>
 
