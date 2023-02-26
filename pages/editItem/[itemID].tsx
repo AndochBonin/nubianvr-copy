@@ -20,9 +20,6 @@ import client from "../../lib/prismadb"
 import { AiFillDelete } from "react-icons/ai"
 import { useRouter } from "next/router"
 
-//import { PrismaClient } from '@prisma/client'
-
-//const prisma = new PrismaClient()
 
 function refreshPage() {
     window.location.reload()
