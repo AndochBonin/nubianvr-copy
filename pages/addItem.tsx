@@ -229,8 +229,6 @@ export default function AddItem() {
                                                 borderColor="black"
                                                 _hover={{ borderColor: "black" }}
                                                 onChange={(e) => { 
-                                                    console.log("hello")
-                                                    console.log(e.target.value)
                                                     setPrice(e.target.value) 
                                                 }}
                                             />

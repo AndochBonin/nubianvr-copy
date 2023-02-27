@@ -7,9 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(405).json({message: "Method not allowed"});
     }
 
-    console.log("got to api")
     const itemData = JSON.parse(req.body)
-    console.log(itemData)
     const savedItem = await client.item.create({
         data: itemData
     })

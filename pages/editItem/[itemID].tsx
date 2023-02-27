@@ -30,7 +30,7 @@ function refreshPage() {
 
 export default function EditItem({ item }) {
 
-    const {push} = useRouter()
+    const { push } = useRouter()
 
     const itemID = item.id
     const [name, setName] = useState(item.name)
@@ -122,7 +122,7 @@ export default function EditItem({ item }) {
             condition: condition,
             category: category,
             sex: sex,
-            price: price,
+            price: parseFloat(price),
             size: size,
             url: "/",
             user: {
@@ -276,14 +276,17 @@ export default function EditItem({ item }) {
                                 <Box width="100%" pb={6}>
                                     <FormControl isRequired>
                                         <FormLabel>Price (GHC)</FormLabel>
-                                        <Input
-                                            type="number"
-                                            placeholder={item.price}
-                                            borderRadius="2"
-                                            focusBorderColor="black"
-                                            _hover={{ borderColor: "black" }}
-                                            onChange={(e) => { setPrice(e.target.valueAsNumber) }}
-                                        />
+                                        <NumberInput min={0} precision={2}>
+                                            <NumberInputField
+                                                placeholder={item.price}
+                                                borderRadius="2"
+                                                borderColor="black"
+                                                _hover={{ borderColor: "black" }}
+                                                onChange={(e) => {
+                                                    setPrice(e.target.value)
+                                                }}
+                                            />
+                                        </NumberInput>
                                     </FormControl>
                                 </Box>
                             </Flex>
