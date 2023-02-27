@@ -30,6 +30,8 @@ function refreshPage() {
 
 export default function EditItem({ item }) {
 
+    const {push} = useRouter()
+
     const itemID = item.id
     const [name, setName] = useState(item.name)
     const [color, setColor] = useState(item.color)
@@ -137,7 +139,7 @@ export default function EditItem({ item }) {
             console.log(err)
         }
         setIsLoading(false)
-        window.location.replace("/sell")
+        push("/sell")
     }
 
 
