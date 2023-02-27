@@ -9,7 +9,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     console.log("got to api")
     const itemData = JSON.parse(req.body)
-
+    console.log(itemData)
     const savedItem = await client.item.create({
         data: itemData
     })

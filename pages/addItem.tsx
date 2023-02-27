@@ -29,7 +29,7 @@ export default function AddItem() {
     const [condition, setCondition] = useState("")
     const [category, setCategory] = useState("")
     const [sex, setSex] = useState("")
-    const [price, setPrice] = useState(0)
+    const [price, setPrice] = useState("")
     const [size, setSize] = useState("")
     const [image, setImage] = useState("")
     const [isLoading, setIsLoading] = useState(false)
@@ -52,7 +52,7 @@ export default function AddItem() {
             condition: condition,
             category: category,
             sex: sex,
-            price: price,
+            price: parseFloat(price),
             size: size,
             url: "/",
             user: {
@@ -228,7 +228,11 @@ export default function AddItem() {
                                                 borderRadius="2"
                                                 borderColor="black"
                                                 _hover={{ borderColor: "black" }}
-                                                onChange={(e) => { setPrice(e.target.valueAsNumber) }}
+                                                onChange={(e) => { 
+                                                    console.log("hello")
+                                                    console.log(e.target.value)
+                                                    setPrice(e.target.value) 
+                                                }}
                                             />
                                         </NumberInput>
                                     </FormControl>
