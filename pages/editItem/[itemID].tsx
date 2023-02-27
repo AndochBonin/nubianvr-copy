@@ -62,7 +62,7 @@ export default function EditItem({ item }) {
             condition: condition,
             category: category,
             sex: sex,
-            price: price,
+            price: parseFloat(price),
             size: size,
             url: "/",
             user: {
@@ -80,7 +80,8 @@ export default function EditItem({ item }) {
         }
 
         setIsLoading(false)
-        refreshPage()
+        push("/sell")
+
     }
 
 
@@ -184,7 +185,7 @@ export default function EditItem({ item }) {
                                     <FormControl isRequired>
                                         <FormLabel>Category</FormLabel>
                                         <Select
-                                            placeholder={item.category}
+                                            placeholder="Select Category"
                                             size="md"
                                             borderRadius="2"
                                             focusBorderColor="black"
@@ -205,7 +206,7 @@ export default function EditItem({ item }) {
                                     <FormControl isRequired>
                                         <FormLabel>Men / Women</FormLabel>
                                         <Select
-                                            placeholder={item.sex}
+                                            placeholder="Select Category"
                                             size="md"
                                             borderRadius="2"
                                             focusBorderColor="black"
@@ -260,7 +261,7 @@ export default function EditItem({ item }) {
                                     <FormControl isRequired>
                                         <FormLabel>Condition</FormLabel>
                                         <Select
-                                            placeholder={item.condition}
+                                            placeholder="Select Condition"
                                             size="md"
                                             borderRadius="2"
                                             focusBorderColor="black"
