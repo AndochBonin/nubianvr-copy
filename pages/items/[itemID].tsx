@@ -1,9 +1,57 @@
-import { Box, Flex, Heading, Text, Divider } from "@chakra-ui/react"
+import { Box, Flex, Heading, Text, Divider, Button } from "@chakra-ui/react"
 import Image from 'next/image'
-import BuyNowButton from "../../components/buyNowButton"
+import Link from "next/link"
+import { useState } from "react"
 import client from "../../lib/prismadb"
+import { useSession } from "next-auth/react"
+import { useRouter } from "next/router"
 
 export default function ItemPage({ item }) {
+
+    const [isLoading, setIsLoading] = useState(false)
+    const { data: session, status } = useSession()
+    const { push } = useRouter()
+
+    const handleBuyNow = async () => {
+        setIsLoading(true)
+
+        const order = {
+            orderType: "outgoing",
+            user: {
+                connect: {
+                    email: session.user.email
+                }
+            },
+            item: {
+                connect: {
+                    id: item.id
+                }
+            }
+        }
+
+        try {
+            await saveOrder(order)
+        } catch (err) {
+            console.log(err)
+        }
+        setIsLoading(false)
+        push("/")
+    }
+
+    async function saveOrder(order) {
+        console.log("got to save order")
+        const response = await fetch("/api/addOrder", {
+            method: "POST",
+            body: JSON.stringify(order)
+        })
+
+        if (!response.ok) {
+            throw new Error(response.statusText)
+        }
+
+        return await response.json()
+    }
+
     return (
         <Box mt={[5, 10]} mx={[2, 5, 10, 20]}>
             <Flex justify="center" wrap="wrap">
@@ -25,7 +73,24 @@ export default function ItemPage({ item }) {
                     <Text mb={5}>Condition - {item.condition}</Text>
                     <Heading size="lg" mb={5}>GHC {item.price}</Heading>
 
-                    <BuyNowButton />
+
+                    <Button
+                        size="md"
+                        borderColor="black"
+                        bg="black"
+                        color="white"
+                        variant="outline"
+                        borderRadius="0"
+                        _hover={{ bg: "white", color: "black" }}
+                        _focus={{ borderColor: "black" }}
+                        width="100%"
+                        type="submit"
+                        isLoading={isLoading}
+                        onClick={handleBuyNow}
+                    >
+                        Buy Now
+                    </Button>
+
                 </Box>
             </Flex>
         </Box>

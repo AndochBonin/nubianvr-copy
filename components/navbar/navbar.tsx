@@ -12,10 +12,10 @@ import SellButton from "./sellButton"
 export default function Navbar() {
 
     const { data: session, status } = useSession()
-    const {push} = useRouter()
+    const { push } = useRouter()
 
     const handleSignOut = async () => {
-        const data = await signOut({redirect: false, callbackUrl: "/"})
+        const data = await signOut({ redirect: false, callbackUrl: "/" })
         push(data.url)
     }
 
@@ -39,7 +39,7 @@ export default function Navbar() {
                         </Box>
                         <Menu>
                             <MenuButton>
-                                <Avatar name={session.user.name} size="sm" cursor="pointer" />
+                                <Avatar name={session.user.name} size="sm" cursor="pointer" src={session.user.image} />
                             </MenuButton>
                             <MenuList>
                                 <MenuItem>Orders</MenuItem>
@@ -47,7 +47,7 @@ export default function Navbar() {
                                 <MenuItem>Settings</MenuItem>
                                 <MenuDivider mx={3} borderColor="gray.400" />
                                 <MenuItem as="button"
-                                onClick={handleSignOut}
+                                    onClick={handleSignOut}
                                 >
                                     Sign Out
                                 </MenuItem>

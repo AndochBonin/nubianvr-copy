@@ -243,7 +243,7 @@ export default function AddItem() {
                                         <FormLabel>Size</FormLabel>
                                         {
                                             category == "Footwear" ?
-                                                <NumberInput max={50} min={36} precision={2}>
+                                                <NumberInput max={50} min={36}>
                                                     <NumberInputField
                                                         placeholder="Shoe Size"
                                                         borderRadius="2"
