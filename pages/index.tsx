@@ -1,4 +1,3 @@
-import Head from 'next/head'
 import Image from 'next/image'
 import Categories from '../components/hero section/categories'
 import Hero from '../components/hero section/hero'

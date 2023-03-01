@@ -42,7 +42,7 @@ export default function Navbar() {
                                 <Avatar name={session.user.name} size="sm" cursor="pointer" src={session.user.image} />
                             </MenuButton>
                             <MenuList>
-                                <MenuItem>Orders</MenuItem>
+                                <MenuItem as="a" href="/orders">Orders</MenuItem>
                                 <MenuItem>Account Details</MenuItem>
                                 <MenuItem>Settings</MenuItem>
                                 <MenuDivider mx={3} borderColor="gray.400" />
