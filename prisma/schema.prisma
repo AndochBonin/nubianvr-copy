@@ -73,7 +73,7 @@ model Item {
   size      String
   price     Float
   url       String
-  order     Order?
+  order     Order[]
 }
 
 model Order {
@@ -82,6 +82,6 @@ model Order {
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
   item      Item     @relation(fields: [itemId], references: [id])
-  itemId    String   @unique
+  itemId    String   
   orderType String
 }
