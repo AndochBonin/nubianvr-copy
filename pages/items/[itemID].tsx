@@ -1,10 +1,11 @@
-import { Box, Flex, Heading, Text, Divider, Button } from "@chakra-ui/react"
+import { Box, Flex, Heading, Text, Divider, Button,  } from "@chakra-ui/react"
 import Image from 'next/image'
 import Link from "next/link"
 import { useState } from "react"
 import client from "../../lib/prismadb"
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router"
+
 
 export default function ItemPage({ item }) {
 
@@ -14,6 +15,19 @@ export default function ItemPage({ item }) {
 
     const handleBuyNow = async () => {
         setIsLoading(true)
+
+
+
+        if (!session) {
+            push("/login")
+            return
+        }
+
+        if (session.user.email == item.user.email) {
+            alert("This item was posted by you!")
+            setIsLoading(false)
+            return
+        }
 
         const order = {
             orderType: "outgoing",
@@ -101,6 +115,9 @@ export const getServerSideProps = async ({ query }) => {
     const item = await client.item.findUnique({
         where: {
             id: query.itemID
+        },
+        include: {
+            user: true
         }
     })
 
