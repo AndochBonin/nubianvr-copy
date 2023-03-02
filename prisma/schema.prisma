@@ -73,7 +73,7 @@ model Item {
   size      String
   price     Float
   url       String
-  order     Order[]
+  orders     Order[]
 }
 
 model Order {

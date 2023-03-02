@@ -6,6 +6,8 @@ import { getServerSession } from "next-auth/next"
 import { useSession } from "next-auth/react"
 import { authOptions } from "./api/auth/[...nextauth]"
 import { AiFillDelete, AiFillEdit } from "react-icons/ai"
+import ConfirmationButton from "../components/itemStatus/confirmationButton"
+import StatusBadge from "../components/itemStatus/statusBadge"
 import {
     Box,
     Card,
@@ -15,7 +17,17 @@ import {
     Text,
     Badge,
     Hide,
-    Button
+    Button,
+    ButtonGroup,
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer,
 } from "@chakra-ui/react"
 import Image from "next/image"
 import Link from "next/link"
@@ -25,6 +37,17 @@ import SellInfoAccordion from "../components/sellInfoAccordion"
 const Sell = ({ user }) => {
 
     const userItems = user.items
+    let userOrders = []
+
+    userItems.map(
+        (item) => {
+            const itemOrders = item.orders
+            userOrders = userOrders.concat(itemOrders)
+        }
+    )
+
+    console.log(userOrders)
+
 
     return (
         <Box width="100vw">
@@ -38,7 +61,43 @@ const Sell = ({ user }) => {
                     </Flex>
                     <Box mt={[5, 10]}>
                         <Heading color="black">Orders</Heading>
-                        <OrderTable />
+                        <TableContainer border="1px" borderRadius={8} borderColor="gray.300" mt={5}>
+                            <Table variant="simple" size={["sm"]} width="100%">
+                                <TableCaption>Click item status to change</TableCaption>
+                                <Thead bg="gray.100">
+                                    <Tr>
+                                        <Th>Item</Th>
+                                        <Th>Status</Th>
+                                        <Th>Confirm / Decline</Th>
+                                    </Tr>
+                                </Thead>
+                                <Tbody>
+                                    {
+                                        userItems.map(
+                                            (item) => (
+                                                item.orders.map(
+                                                    (order) => (
+                                                        <Tr>
+                                                            <Td>{item.name}</Td>
+                                                            <Td>
+                                                                <StatusBadge prop="unconfirmed" />
+                                                            </Td>
+                                                            <Td>
+                                                                <ButtonGroup>
+                                                                    <ConfirmationButton prop="confirm" />
+                                                                    <ConfirmationButton prop="decline" />
+                                                                </ButtonGroup>
+
+                                                            </Td>
+                                                        </Tr>
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    }
+                                </Tbody>
+                            </Table>
+                        </TableContainer>
                     </Box>
                 </Box>
 
@@ -139,7 +198,11 @@ export const getServerSideProps = async (context) => { // finding all user items
             email: session.user.email
         },
         include: {
-            items: true
+            items: {
+                include: {
+                    orders: true
+                }
+            }
         }
     })
 

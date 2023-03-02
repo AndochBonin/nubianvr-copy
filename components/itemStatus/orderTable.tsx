@@ -16,7 +16,6 @@ import StatusBadge from "./statusBadge"
 
 export default function OrderTable() {
 
-    const confirm: "confirm" | "decline" = "confirm"
 
     return (
 
