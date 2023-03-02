@@ -14,6 +14,9 @@ const Orders = ({ user }) => {
 
         <Flex justify="center" width="100vw" align="center" height="calc(100vh - 100px)">
             <Box>
+
+            <Heading mb={8}>Your Orders</Heading>
+
                 {
                     userOrders.map((order) => (
 
@@ -31,7 +34,7 @@ const Orders = ({ user }) => {
                                 </Box>
                                 <CardBody>
 
-                                    <Stack direction="row" spacing="48px">
+                                    <Stack direction="row" spacing="48px" justify="space-between">
                                         <Box>
                                             <Text>{order.item.name}</Text>
                                         </Box>
