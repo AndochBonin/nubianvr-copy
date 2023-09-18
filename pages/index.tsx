@@ -1,66 +1,82 @@
-import Image from 'next/image'
-import Categories from '../components/hero section/categories'
-import Hero from '../components/hero section/hero'
-import client from "../lib/prismadb"
-import { Box, Card, CardBody, Flex, Text, Heading } from '@chakra-ui/react'
-import { Item } from '@prisma/client'
-import Link from 'next/link'
+import {
+  Box,
+  Card,
+  CardBody,
+  Flex,
+  Text,
+  Heading,
+  Center,
+  Image,
+  ButtonGroup,
+  Button,
+  Spinner,
+} from "@chakra-ui/react"
+import { useEffect, useState } from "react"
+import CharacterSection from "../components/characterSection"
+import Header from "../components/header"
+import LoadingSpinner from "../components/loadingSpinner"
 
-export default function Home({ items }) {
-  return (
-    <div>
-      <Hero />
-      <Categories />
-
-      <Box  px={[2, 5, 10, 20]}>
-        <Heading as="h2" size="md" marginTop={8} marginBottom={4}>New In</Heading>
-        <Flex pt={5} wrap="wrap" justify={["center", "center", "flex-start"]}>
-          {
-            items.map((item: Item) => (
-              <Link
-              href={{
-                pathname: "/items/[itemID]",
-                query: {
-                  itemID: item.id
-                }
-              }}
-              >
-              <Box m={2} cursor="pointer">
-                <Card>
-                  <CardBody>
-                    <Image
-                      src="/../public/noimage.png"
-                      height="200px"
-                      width="200px"
-                      alt=""
-                    />
-
-                    <Heading size="sm">{item.name}</Heading>
-                    <Text>{item.color}</Text>
-                    <Flex justify="space-between">
-                      <Text as="b">GHC {item.price}</Text>
-                    </Flex>
-                  </CardBody>
-                </Card>
-              </Box>
-              </Link>
-            ))
-          }
-        </Flex>
-      </Box>
-
-    </div>
+export default function Home() {
+  const [swapiUrl, setSwapiUrl] = useState(
+    "https://swapi.dev/api/people/?page=1"
   )
-}
+  const [isLoading, setLoading] = useState(true)
+  const [data, setData] = useState(null)
 
-export const getServerSideProps = async () => { // finding all user items
+  useEffect(() => {
+    fetch(swapiUrl)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data)
+        setLoading(false)
+      })
+  }, [swapiUrl])
 
-
-  const items = await client.item.findMany()
-
-  return {
-    props: {
-      items
+  const handleNextClick = () => {
+    if (isLoading) return
+    if (data.next != null) {
+      setSwapiUrl(data.next)
+      setLoading(true)
     }
   }
+
+  const handlePreviousClick = () => {
+    if (isLoading) return
+    if (data.previous != null) {
+      setSwapiUrl(data.previous)
+      setLoading(true)
+    }
+  }
+
+  console.log(data)
+
+  return (
+    <Box>
+      <Header />
+      <Box>
+        {!isLoading ? (
+          <Box>
+            <CharacterSection result={data.results} />
+            <Box>
+              <Center>
+                <ButtonGroup gap="4">
+                  <Button
+                    colorScheme="blackAlpha"
+                    onClick={handlePreviousClick}
+                  >
+                    Previous
+                  </Button>
+                  <Button colorScheme="blackAlpha" onClick={handleNextClick}>
+                    Next
+                  </Button>
+                </ButtonGroup>
+              </Center>
+            </Box>
+          </Box>
+        ) : (
+          <LoadingSpinner />
+        )}
+      </Box>
+    </Box>
+  )
 }
